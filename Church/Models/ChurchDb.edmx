@@ -1,0 +1,638 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChurchMgtModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoryExpenses">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Church">
+          <Key>
+            <PropertyRef Name="ChurchID" />
+          </Key>
+          <Property Name="ChurchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChurchName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityName" Type="varchar" MaxLength="50" />
+          <Property Name="StateID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expenses">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChurchID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Address" Type="text" />
+          <Property Name="States" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="MarStat" Type="nchar" MaxLength="10" />
+          <Property Name="DateJoined" Type="date" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ChurchID" Type="int" />
+        </EntityType>
+        <EntityType Name="Offering">
+          <Key>
+            <PropertyRef Name="OfferingID" />
+          </Key>
+          <Property Name="OfferingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfOffering" Type="date" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <EntityType Name="SpecialContr">
+          <Key>
+            <PropertyRef Name="SpecContrID" />
+          </Key>
+          <Property Name="SpecContrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfSpecContr" Type="date" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tithes">
+          <Key>
+            <PropertyRef Name="TitheID" />
+          </Key>
+          <Property Name="TitheID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfTithe" Type="date" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="int" />
+        </EntityType>
+        <Association Name="FK_Church_City">
+          <End Role="City" Type="Self.City" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Church" Type="Self.Church" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Church">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_City_State">
+          <End Role="State" Type="Self.State" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenses_CategoryExpenses">
+          <End Role="CategoryExpenses" Type="Self.CategoryExpenses" Multiplicity="1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryExpenses">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenses_Church">
+          <End Role="Church" Type="Self.Church" Multiplicity="1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Church">
+              <PropertyRef Name="ChurchID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="ChurchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Church">
+          <End Role="Church" Type="Self.Church" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Church">
+              <PropertyRef Name="ChurchID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="ChurchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offering_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Offering" Type="Self.Offering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Offering">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecialContr_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="SpecialContr" Type="Self.SpecialContr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="SpecialContr">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tithes_Members">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Tithes" Type="Self.Tithes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Tithes">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChurchMgtModelStoreContainer">
+          <EntitySet Name="CategoryExpenses" EntityType="Self.CategoryExpenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Church" EntityType="Self.Church" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offering" EntityType="Self.Offering" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialContr" EntityType="Self.SpecialContr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tithes" EntityType="Self.Tithes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Church_City" Association="Self.FK_Church_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="Church" EntitySet="Church" />
+          </AssociationSet>
+          <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenses_CategoryExpenses" Association="Self.FK_Expenses_CategoryExpenses">
+            <End Role="CategoryExpenses" EntitySet="CategoryExpenses" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenses_Church" Association="Self.FK_Expenses_Church">
+            <End Role="Church" EntitySet="Church" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Church" Association="Self.FK_Member_Church">
+            <End Role="Church" EntitySet="Church" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offering_Member" Association="Self.FK_Offering_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Offering" EntitySet="Offering" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecialContr_Member" Association="Self.FK_SpecialContr_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="SpecialContr" EntitySet="SpecialContr" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tithes_Members" Association="Self.FK_Tithes_Members">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Tithes" EntitySet="Tithes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChurchMgtModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Church">
+          <Key>
+            <PropertyRef Name="ChurchID" />
+          </Key>
+          <Property Name="ChurchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChurchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" FixedLength="false" Unicode="true" MaxLength="50" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_Member_Church" FromRole="Church" ToRole="Member" />
+          <NavigationProperty Name="Cities" Relationship="ChurchMgtModel.FK_Church_City" FromRole="Church" ToRole="City" />
+          <NavigationProperty Name="Expenses" Relationship="ChurchMgtModel.FK_Expenses_Church" FromRole="Church" ToRole="Expens" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Churches" Relationship="Self.FK_Church_City" FromRole="City" ToRole="Church" />
+          <NavigationProperty Name="State" Relationship="Self.FK_City_State" FromRole="City" ToRole="State" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="States" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MarStat" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DateJoined" Type="DateTime" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ChurchID" Type="Int32" />
+          <NavigationProperty Name="Church" Relationship="Self.FK_Member_Church" FromRole="Member" ToRole="Church" />
+          <NavigationProperty Name="Offerings" Relationship="Self.FK_Offering_Member" FromRole="Member" ToRole="Offering" />
+          <NavigationProperty Name="SpecialContrs" Relationship="Self.FK_SpecialContr_Member" FromRole="Member" ToRole="SpecialContr" />
+          <NavigationProperty Name="Tithes" Relationship="Self.FK_Tithes_Members" FromRole="Member" ToRole="Tithes" />
+        </EntityType>
+        <EntityType Name="Offering">
+          <Key>
+            <PropertyRef Name="OfferingID" />
+          </Key>
+          <Property Name="OfferingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfOffering" Type="DateTime" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Offering_Member" FromRole="Offering" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="SpecialContr">
+          <Key>
+            <PropertyRef Name="SpecContrID" />
+          </Key>
+          <Property Name="SpecContrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfSpecContr" Type="DateTime" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_SpecialContr_Member" FromRole="SpecialContr" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_City_State" FromRole="State" ToRole="City" />
+        </EntityType>
+        <EntityType Name="Tithe">
+          <Key>
+            <PropertyRef Name="TitheID" />
+          </Key>
+          <Property Name="TitheID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfTithe" Type="DateTime" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MemberID" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Tithes_Members" FromRole="Tithes" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_Church_City">
+          <End Role="City" Type="Self.City" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Church" Type="Self.Church" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="Church">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Church">
+          <End Role="Church" Type="Self.Church" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Church">
+              <PropertyRef Name="ChurchID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="ChurchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_City_State">
+          <End Role="State" Type="Self.State" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offering_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Offering" Type="Self.Offering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Offering">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpecialContr_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="SpecialContr" Type="Self.SpecialContr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="SpecialContr">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tithes_Members">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Tithes" Type="Self.Tithe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Tithes">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChurchMgtEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Churches" EntityType="Self.Church" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Offerings" EntityType="Self.Offering" />
+          <EntitySet Name="SpecialContrs" EntityType="Self.SpecialContr" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="Tithes" EntityType="Self.Tithe" />
+          <AssociationSet Name="FK_Church_City" Association="Self.FK_Church_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Church" EntitySet="Churches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Church" Association="Self.FK_Member_Church">
+            <End Role="Church" EntitySet="Churches" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+            <End Role="State" EntitySet="States" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offering_Member" Association="Self.FK_Offering_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Offering" EntitySet="Offerings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpecialContr_Member" Association="Self.FK_SpecialContr_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="SpecialContr" EntitySet="SpecialContrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tithes_Members" Association="Self.FK_Tithes_Members">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Tithes" EntitySet="Tithes" />
+          </AssociationSet>
+          <EntitySet Name="CategoryExpenses" EntityType="ChurchMgtModel.CategoryExpens" />
+          <EntitySet Name="Expenses" EntityType="ChurchMgtModel.Expens" />
+          <AssociationSet Name="FK_Expenses_CategoryExpenses" Association="ChurchMgtModel.FK_Expenses_CategoryExpenses">
+            <End Role="CategoryExpens" EntitySet="CategoryExpenses" />
+            <End Role="Expens" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenses_Church" Association="ChurchMgtModel.FK_Expenses_Church">
+            <End Role="Church" EntitySet="Churches" />
+            <End Role="Expens" EntitySet="Expenses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CategoryExpens">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Expenses" Relationship="ChurchMgtModel.FK_Expenses_CategoryExpenses" FromRole="CategoryExpens" ToRole="Expens" />
+        </EntityType>
+        <EntityType Name="Expens">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChurchID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CategoryExpens" Relationship="ChurchMgtModel.FK_Expenses_CategoryExpenses" FromRole="Expens" ToRole="CategoryExpens" />
+          <NavigationProperty Name="Church" Relationship="ChurchMgtModel.FK_Expenses_Church" FromRole="Expens" ToRole="Church" />
+        </EntityType>
+        <Association Name="FK_Expenses_CategoryExpenses">
+          <End Type="ChurchMgtModel.CategoryExpens" Role="CategoryExpens" Multiplicity="1" />
+          <End Type="ChurchMgtModel.Expens" Role="Expens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryExpens">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Expens">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenses_Church">
+          <End Type="ChurchMgtModel.Church" Role="Church" Multiplicity="1" />
+          <End Type="ChurchMgtModel.Expens" Role="Expens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Church">
+              <PropertyRef Name="ChurchID" />
+            </Principal>
+            <Dependent Role="Expens">
+              <PropertyRef Name="ChurchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChurchMgtModelStoreContainer" CdmEntityContainer="ChurchMgtEntities">
+          <EntitySetMapping Name="Churches">
+            <EntityTypeMapping TypeName="ChurchMgtModel.Church">
+              <MappingFragment StoreEntitySet="Church">
+                <ScalarProperty Name="ChurchID" ColumnName="ChurchID" />
+                <ScalarProperty Name="ChurchName" ColumnName="ChurchName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="ChurchMgtModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="ChurchMgtModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="States" ColumnName="States" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MarStat" ColumnName="MarStat" />
+                <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ChurchID" ColumnName="ChurchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offerings">
+            <EntityTypeMapping TypeName="ChurchMgtModel.Offering">
+              <MappingFragment StoreEntitySet="Offering">
+                <ScalarProperty Name="OfferingID" ColumnName="OfferingID" />
+                <ScalarProperty Name="DateOfOffering" ColumnName="DateOfOffering" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialContrs">
+            <EntityTypeMapping TypeName="ChurchMgtModel.SpecialContr">
+              <MappingFragment StoreEntitySet="SpecialContr">
+                <ScalarProperty Name="SpecContrID" ColumnName="SpecContrID" />
+                <ScalarProperty Name="DateOfSpecContr" ColumnName="DateOfSpecContr" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="ChurchMgtModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tithes">
+            <EntityTypeMapping TypeName="ChurchMgtModel.Tithe">
+              <MappingFragment StoreEntitySet="Tithes">
+                <ScalarProperty Name="TitheID" ColumnName="TitheID" />
+                <ScalarProperty Name="DateOfTithe" ColumnName="DateOfTithe" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryExpenses">
+            <EntityTypeMapping TypeName="ChurchMgtModel.CategoryExpens">
+              <MappingFragment StoreEntitySet="CategoryExpenses">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="ChurchMgtModel.Expens">
+              <MappingFragment StoreEntitySet="Expenses">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ChurchID" ColumnName="ChurchID" />
+                <ScalarProperty Name="ExpenseName" ColumnName="ExpenseName" />
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

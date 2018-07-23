@@ -1,0 +1,61 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<Church.Models.Offering>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Offerings</h2>
+@Html.Partial("_SearchOptions")
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DateOfOffering)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Amount)
+        </th>
+        <th>
+            @Html.DisplayName("Member Full Name")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfOffering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.FirstName)
+                @Html.DisplayFor(modelItem => item.Member.LastName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.OfferingID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.OfferingID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.OfferingID })
+            </td>
+        </tr>
+    }
+
+</table>
+<nav aria-label="...">
+    <ul class="pager">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page,
+            MemberID = Request.QueryString["MemberID"],
+            Date1 = Request.QueryString["Date1"],
+            Date2 = Request.QueryString["Date2"]
+        }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+    </ul>
+</nav>
+<h4>Total Offerings :$@ViewBag.Total</h4>

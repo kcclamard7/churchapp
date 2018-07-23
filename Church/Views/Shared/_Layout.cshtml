@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - LGT Mgt App</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+ 
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("LGT Management", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Tithes", "Index", "Tithes")</li>
+                    <li>@Html.ActionLink("Offerings", "Index", "Offerings")</li>
+                    <li>@Html.ActionLink("Contributions", "Index", "SpecialContrs")</li>
+                    <li>@Html.ActionLink("Expenses", "Index", "Expens")</li>
+                    @*<li>@Html.ActionLink("Elements", "Index", "Elements")</li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Manage Elements <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Manage State", "index", "States")</li>
+                            <li>@Html.ActionLink("Manage Cities", "Index", "Cities")</li>
+                            <li>@Html.ActionLink("Manage Churches", "Index", "Churches")</li>
+                            <li>@Html.ActionLink("Manage Members", "Index", "Members")</li>
+                            <li>@Html.ActionLink("Manage Catagory", "Index", "CategoryExpens")</li>
+
+
+
+                        </ul>
+                    </li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+      
+        <div id="printarea"> @RenderBody()</div>
+        <hr />
+        <div style="margin-left: auto;margin-right:auto">
+            <div class="container">
+                <p>-- Quick Access--</p>
+                <a href="/Total" class="btn btn-primary btn-sm">View Balance</a>
+                <a href="/Tithes" class="btn btn-primary btn-sm">Manage Tithes</a>
+                <a href="/Offerings" class="btn btn-primary btn-sm">Manage Offerings</a>
+                <a href="/SpecialContrs" class="btn btn-primary btn-sm">Special Contributions</a>
+                <a href="/Expens" class="btn btn-primary btn-sm">Expenses</a>
+
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Living God Tabernacle</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/scripts/myjava.js")
+
+
+</body>
+</html>

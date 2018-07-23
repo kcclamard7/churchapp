@@ -1,0 +1,48 @@
+﻿@model Church.Models.Tithe
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Tithe Details";
+}
+
+<h2>Details Details</h2>
+
+<div>
+    <h4>Tithe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfTithe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfTithe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Member Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+            @Html.DisplayFor(model => model.Member.LastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TitheID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

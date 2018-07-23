@@ -1,0 +1,41 @@
+﻿
+<p><a href="#" data-toggle="collapse" data-target="#divform">More Search Options</a></p>
+
+<div id="divform" style="
+        background-color:cadetblue;
+        padding:5px;
+        width:65%;
+        border-radius:25px;
+        /*display:none*/
+        ">
+    @using (Html.BeginForm("Index", @HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(), FormMethod.Get, htmlAttributes: new { @class = "bs-form" }))
+    {
+        <label for="Date1">Start Date</label> <input id="Date1" name="Date1" type="date" size="15" /> @: =>
+        <label for="Date2">End Date</label> <input id="Date2" name="Date2" size="15" type="date" />
+        @:=>
+
+
+        if (@HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Expens")
+        {
+            <label for="MemberID">Church</label>
+        }
+        else
+        {
+            <label for="MemberID">Member</label>
+
+        }
+
+
+
+        @Html.DropDownList("MemberID", null, "All the records", htmlAttributes: new { @class = "" })
+        @Html.ValidationMessage("MemberID", "", new { @class = "text-danger" })
+
+        <button>Submit</button>
+    }
+
+</div>
+<div class="alert alert-danger"><br /><p style="color:red"><strong>@ViewBag.RequestError</strong></p></div>
+<div style="float:right"><a href="#" onclick='printFunc();'><img id="print" src="~/img/print-icon.png" alt="" width="30" /></a></div>
+
+
+<hr />

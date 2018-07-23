@@ -1,0 +1,43 @@
+﻿@model Church.Models.SpecialContr
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details Contribution</h2>
+
+<div>
+    <h4>Special Contributions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfSpecContr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfSpecContr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Member Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+            @Html.DisplayFor(model => model.Member.LastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SpecContrID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

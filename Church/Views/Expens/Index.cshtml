@@ -1,0 +1,78 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<Church.Models.Expens>
+
+@{
+    ViewBag.Title = "List Of Expenses";
+}
+
+<h2>List of Expenses</h2>
+@Html.Partial("_SearchOptions")
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ExpenseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CategoryExpens.Name)
+        </th>
+        <th>
+            @Html.DisplayName("Church Name")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryExpens.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Church.ChurchName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ExpenseID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ExpenseID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ExpenseID })
+            </td>
+        </tr>
+    }
+
+</table>
+<nav aria-label="...">
+    <ul class="pager">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page,
+            MemberID = Request.QueryString["MemberID"],
+            Date1 = Request.QueryString["Date1"],
+            Date2 = Request.QueryString["Date2"]
+        }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+    </ul>
+</nav>
+<h4>Total Expenses :$@ViewBag.Total</h4>

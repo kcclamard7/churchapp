@@ -1,0 +1,59 @@
+﻿@{
+    /**/
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Total Balances";
+}
+
+<h3>List Of Balances As of @DateTime.Today</h3>
+<div style="float:right"><a href="javascript:window.print()"><img id="print" src="~/img/print-icon.png" alt="" width="30" /></a></div>
+
+
+@*<form id="form1" runat="server"><asp:ImageButton ID="imgBtnPrint" runat="server" ImageUrl="~/img/print-icon.png" OnClientClick="javascript:PrintDivContent('divToPrint');" /></form>*@
+
+
+<div style="width:40%" id="divToPrint">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Account</th>
+                <th scope="col">Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Blance Tithes</th>
+                <td>$@ViewBag.TotalTithes</td>
+            </tr>
+            <tr>
+                <th>Balance Offerings</th>
+                <td>$@ViewBag.TotalOffering</td>
+            </tr>
+            <tr>
+                <th>Balances Special Contribuation</th>
+                <td>$@ViewBag.TotalSpecialContrs</td>
+            </tr>
+            <tr>
+                <th>Blances Expenses</th>
+                <td>$@ViewBag.TotalExpenses</td>
+            </tr>
+            <tr style="background-color:lightskyblue; color:red; font-size:large">
+                <th>Account Balance</th>
+                <td>
+                    <strong>
+                        @{
+
+                            <text>$</text>
+                            @((@ViewBag.TotalTithes + @ViewBag.TotalOffering + @ViewBag.TotalSpecialContrs) - @ViewBag.TotalExpenses);
+
+                        }
+                    </strong>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

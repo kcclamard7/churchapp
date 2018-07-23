@@ -1,0 +1,42 @@
+﻿@model Church.Models.Offering
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details Offering</h2>
+
+<div>
+    <h4>Offering</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfOffering)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfOffering)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Member Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OfferingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
